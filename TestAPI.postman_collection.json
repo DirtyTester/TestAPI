@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "5e516923-6f14-4858-9604-68eee34d9c4b",
+		"name": "Test API ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get configs 401 error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "876758db-f385-4da9-9e79-c120d27e817f",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://integrations.green.keyprdev.cloud/internal/api/v1/config/",
+					"protocol": "http",
+					"host": [
+						"integrations",
+						"green",
+						"keyprdev",
+						"cloud"
+					],
+					"path": [
+						"internal",
+						"api",
+						"v1",
+						"config",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get configs with auth key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4acb89df-16ba-4c76-82af-465357c0699b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"configIDs = [];",
+							"",
+							"jsonData.forEach(function(post) {",
+							"    configIDs.add(post.affiliateId);",
+							"});",
+							"",
+							"pm.environment.set(\"configIDs\", configIDs);",
+							"pm.environment.set(\"affiliate-id-second\", jsonData[1].affiliateId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://integrations.green.keyprdev.cloud/internal/api/v1/config/?auth_key=A6LuXfhOqf",
+					"protocol": "http",
+					"host": [
+						"integrations",
+						"green",
+						"keyprdev",
+						"cloud"
+					],
+					"path": [
+						"internal",
+						"api",
+						"v1",
+						"config",
+						""
+					],
+					"query": [
+						{
+							"key": "auth_key",
+							"value": "A6LuXfhOqf"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get affiliate config 401 ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac6b777f-4ea3-4311-923b-adc4c8c5d891",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://integrations.green.keyprdev.cloud/internal/api/v1/config/8eda1b2f-9a0a-4442-9c18-baee0980313c",
+					"protocol": "http",
+					"host": [
+						"integrations",
+						"green",
+						"keyprdev",
+						"cloud"
+					],
+					"path": [
+						"internal",
+						"api",
+						"v1",
+						"config",
+						"8eda1b2f-9a0a-4442-9c18-baee0980313c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get affiliate id with auth key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6a50e583-fb3b-4efd-8c5a-27589875835b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"second affiliate is present\", function () {",
+							"pm.expect(pm.environment.get(\"affiliate-id-second\")).to.be.oneOf(pm.environment.get(\"configIDs\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://integrations.green.keyprdev.cloud/internal/api/v1/config/{{affiliate-id-second}}?auth_key=A6LuXfhOqf",
+					"protocol": "http",
+					"host": [
+						"integrations",
+						"green",
+						"keyprdev",
+						"cloud"
+					],
+					"path": [
+						"internal",
+						"api",
+						"v1",
+						"config",
+						"{{affiliate-id-second}}"
+					],
+					"query": [
+						{
+							"key": "auth_key",
+							"value": "A6LuXfhOqf"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
